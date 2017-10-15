@@ -1,4 +1,16 @@
-'''This parser will look for KV items and store them in a dictionary'''
+'''	Author: Dennis Mesina
+	This parser will look for KV items and store them in a dictionary.
+	Use this file for storing config or settings information at the top of files.
+	The lines need to start with the '#' symbol and not be separated by an empty line
+	
+	Example:
+	#	key 1 = value 1
+	#	key 2 = value 2
+	#	key 3 = list_of_items separated_by spaces
+
+	...The rest of the file...
+
+'''
 import re
 
 class Parser(object):

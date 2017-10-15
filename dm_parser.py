@@ -9,30 +9,31 @@ class Parser(object):
 
 	def __init__(self, file_name):
 		self.file_name = file_name
+		self.main()
 
-	def open_file():
+	def open_file(self):
 		self.file = open(self.file_name, 'r')
 
-	def close_file():
+	def close_file(self):
 		self.file.close()
 
-	def get_usable_lines():
+	def get_usable_lines(self):
 		usable_lines = []
 		all_lines = self.file.readlines()
 		for line in all_lines:
 			if line[0] == '#':
 				usable_lines.append(line)
-		return usable_lines
+		self.parser_list = usable_lines
 
-	def create_dictionary(line_list):
-		for line in line_list:
-			key = re.search('#\s*(.*)?(?=\s=\s)', line)
-			value = re.search('(?<=\s=\s)(.*)?\n', line)
-			elements[key.group(1)] = value.group(0)
+	def create_dictionary(self):
+		for line in self.parser_list:
+			key_value = re.search('#\s*(.*)?\s=\s(.*)?\n', line)
+			if key_value:
+				print(key_value.group(1), key_value.group(2))
+				self.elements[key_value.group(1)] = key_value.group(2)
 
-	def main():
-		open_file()
-		self.parser_list = get_usable_lines()
-		create_dictionary(parser_list)
-		close_file()
-		return elements
+	def main(self):
+		self.open_file()
+		self.get_usable_lines()
+		self.create_dictionary()
+		self.close_file()

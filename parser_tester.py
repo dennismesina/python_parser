@@ -2,5 +2,8 @@
 
 import dm_parser
 
-file_contents = dm_parser.Parser("test.dm")
+my_parser = dm_parser.Parser("test.dm")
 
+file_contents = my_parser.elements
+
+print(file_contents)

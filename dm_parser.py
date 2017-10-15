@@ -3,20 +3,17 @@ import re
 
 class Parser(object):
 	elements = {}
+	parser_list = []
 	file_name = ""
 	file = None
 
 	def __init__(self, file_name):
 		self.file_name = file_name
-		self.open()
-		self.list = self.get_usable_lines()
-		self.create_dictionary(self.list)
-		self.close()
 
-	def open():
+	def open_file():
 		self.file = open(self.file_name, 'r')
 
-	def close():
+	def close_file():
 		self.file.close()
 
 	def get_usable_lines():
@@ -32,3 +29,10 @@ class Parser(object):
 			key = re.search('#\s*(.*)?(?=\s=\s)', line)
 			value = re.search('(?<=\s=\s)(.*)?\n', line)
 			elements[key.group(1)] = value.group(0)
+
+	def main():
+		open_file()
+		self.parser_list = get_usable_lines()
+		create_dictionary(parser_list)
+		close_file()
+		return elements

@@ -11,20 +11,26 @@ class Parser(object):
 		self.file_name = file_name
 		self.main()
 
+	#opens the file with file_name under "read only" mode
 	def open_file(self):
 		self.file = open(self.file_name, 'r')
 
+	#closes the file
 	def close_file(self):
 		self.file.close()
 
+	#get the lines at the top of the file before a newline separator, starting with #
 	def get_usable_lines(self):
 		usable_lines = []
 		all_lines = self.file.readlines()
 		for line in all_lines:
 			if line[0] == '#':
 				usable_lines.append(line)
+			if line[0] == '\n':
+				break
 		self.parser_list = usable_lines
 
+	#create a dictionary from the usable_lines and store it in elements{}
 	def create_dictionary(self):
 		for line in self.parser_list:
 			key_value = re.search('#\s*(.*)?\s=\s(.*)?\n', line)
@@ -32,6 +38,7 @@ class Parser(object):
 				print(key_value.group(1), key_value.group(2))
 				self.elements[key_value.group(1)] = key_value.group(2)
 
+	#main will be run immidiately so that the elements are ready to be used.
 	def main(self):
 		self.open_file()
 		self.get_usable_lines()

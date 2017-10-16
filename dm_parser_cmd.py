@@ -1,12 +1,10 @@
 '''	Author: Dennis Mesina
-	This parser will look for KV items and store them in a dictionary.
-	Use this file for storing config or settings information at the top of files.
-	The lines need to start with the '#' symbol and not be separated by an empty line
-	
+	This Parser will look for the command stanzas present in the config files.
+	The commands in each stanza will be stored in a list to be executed later.
 	Example:
-	#	key 1 = value 1
-	#	key 2 = value 2
-	#	key 3 = list_of_items separated_by spaces
+	[ADD]
+	SEND "Hello"
+	RECEIVE "World"
 
 	...The rest of the file...
 
@@ -31,7 +29,7 @@ class Parser(object):
 	def close_file(self):
 		self.file.close()
 
-	#get the lines at the top of the file before a newline separator, starting with #
+	#get the lines after the first instance of a stanza (ex. [ADD])
 	def get_usable_lines(self):
 		usable_lines = []
 		all_lines = self.file.readlines()
@@ -44,7 +42,7 @@ class Parser(object):
 				usable_lines.append(line)
 		self.parser_list = usable_lines
 
-	#create a dictionary from the usable_lines and store it in elements{}
+	#create a list from the commands in the stanza and store it in elements{}
 	def create_dictionary(self):
 		key = ''
 		cmd_set = []

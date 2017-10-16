@@ -35,20 +35,29 @@ class Parser(object):
 	def get_usable_lines(self):
 		usable_lines = []
 		all_lines = self.file.readlines()
+		state = ''
 		for line in all_lines:
-			if line[0] == '#':
+			if state == 'capture':
 				usable_lines.append(line)
-			if line[0] == '\n':
-				break
+			elif line[0] == '[':
+				state = 'capture'
+				usable_lines.append(line)
 		self.parser_list = usable_lines
 
 	#create a dictionary from the usable_lines and store it in elements{}
 	def create_dictionary(self):
+		key = ''
+		cmd_set = []
 		for line in self.parser_list:
-			key_value = re.search('#\s*(.*)?\s=\s(.*)?\n', line)
-			if key_value:
-				# print(key_value.group(1), key_value.group(2))
-				self.elements[key_value.group(1)] = key_value.group(2)
+			key_cmdset = re.search('\[(.*?)\]', line)
+			if key_cmdset:
+				key = key_cmdset.group(1)
+				cmd_set = []
+			elif line[0] == '\n':
+				self.elements[key] = cmd_set
+			else:
+				cmd_set.append(line)
+
 
 	#main will be run immidiately so that the elements are ready to be used.
 	def main(self):
